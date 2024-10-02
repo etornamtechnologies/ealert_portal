@@ -1,0 +1,203 @@
+<div class="flex flex-col flex-auto min-w-0 mx-4" >
+
+    <div class="bg-card px-4 py-2">
+    <div fxFlex="80" class="pt-2">
+    
+        <form fxLayout="column"
+              name="advanceSearch"
+              [formGroup]="reportfilter"
+              (ngSubmit)="featchBroadcastReport()">
+            <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
+    
+                <div fxLayout="column" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}" fxFlexOffset="5" fxFlex="25">
+                    <label class="leading-4">
+                      <b class="text-sm">Start Date</b>
+                    </label>
+                    <mat-form-field appearance="outline" class="text-xs">
+                        <mat-label>Select Start Date (dd/mm/YYYY)</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            (focus)="picker.open()"
+                            readonly
+                            formControlName="StartDate"
+                            placeholder="Pick a Date" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>Please select transaction date</mat-error>
+                    </mat-form-field>
+                </div>
+    
+                <div fxLayout="column" [@animate]="{value:'*', params:{delay:'400ms',scale:'.2'}}" fxFlex="25">
+                    <label class="leading-4">
+                      <b class="text-sm">End Date</b>
+                    </label>
+                    <mat-form-field appearance="outline" class="text-xs">
+                        <mat-label>Select End Date (dd/mm/YYYY)</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker2"
+                            (focus)="picker2.open()"
+                            readonly
+                            formControlName="EndDate"
+                            placeholder="Pick a Date" />
+                        <mat-datepicker-toggle  matSuffix [for]="picker2">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error>Please select transaction date</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxLayout="column" [@animate]="{value:'*', params:{delay:'600ms',scale:'.2'}}" fxFlex="20">
+                    <label class="leading-4">
+                      <b class="text-sm">Status</b>
+                    </label>
+                    <mat-form-field appearance="outline" class="text-xs">
+                      <mat-select [placeholder]="'Status *'" formControlName="Status">
+                          <mat-option value='A'>Success</mat-option>
+                          <mat-option value=D>Failed / Pending</mat-option>
+                          <!-- <mat-option value=2>Pending</mat-option> -->
+                      </mat-select>
+                          <mat-error>Status Selection is required!</mat-error>
+                    </mat-form-field>
+                  </div>
+
+              <div fxLayout="column" [@animate]="{value:'*', params:{delay:'700ms',scale:'.2'}}" fxFlex="20">
+                  <button 
+                    type="submit" 
+                    [@animate]="{value:'*', params:{delay:'500ms',scale:'.2'}}"
+                    [disabled]="isLoading"
+                    mat-raised-button 
+                    color="primary" 
+                    class="w-102 mt-5 rounded-md">
+                    Fetch &nbsp;
+                    <span matSuffix><mat-icon class="icon-size-4">search</mat-icon></span>
+                  </button>
+              </div>
+    
+            </div>
+        </form>
+    </div>
+    
+    </div>
+    </div>
+<div class="mat-card mx-4 my-4 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    
+
+
+    <app-table-loader *ngIf="isLoading"></app-table-loader>
+    <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+        <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+            <mat-label>Quick Search</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="What are you looking for?">
+            <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+        </mat-form-field>
+    </div>
+    <div #TableContainer class="mt-0" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+        <mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="message">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div class="font-bold text-black dark:text-gray-400">Message</div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="text-sm"> {{row.messageBody}} </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="subject">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <div class="font-bold text-black dark:text-gray-400">Account number</div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="text-sm"> {{row.acNo}} </div>
+                    </mat-cell>
+                </ng-container>
+
+                  <ng-container matColumnDef="broadcastDate">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <div class="font-bold text-black dark:text-gray-400">Broadcast TimeStamp</div>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                          <div class="text-sm"> {{row.timestamp}} </div>
+                      </mat-cell>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="broadcastTime">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <div class="text-bold text-black dark:text-gray-400">Boradcast time</div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> 
+                       <div class="text-sm"> {{row.ccy}}</div> 
+                    </mat-cell>
+                  </ng-container>
+
+
+                    <ng-container matColumnDef="accountType">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">MessageId</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> 
+                            <!-- {{row.amount | number:'1.2'}} -->
+                            {{row.messageId}}
+
+                           </div> 
+                        </mat-cell>
+                      </ng-container>
+
+
+                      <ng-container matColumnDef="religion">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Recipient</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> 
+                              <!-- {{row.txnDate | date: 'dd/MM/yyyy'}} -->
+                              {{row.recipient}}
+                           </div> 
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="gender">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Mobile</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> 
+                              {{row.mobile}}
+                           </div> 
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Responce Status</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> 
+                              {{row.responseCode}}
+                           </div> 
+                        </mat-cell>
+                      </ng-container>
+
+                      
+              
+
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                          </mat-row>
+        </mat-table>
+        <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+            <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+            <div>No records found</div>
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+
+
+

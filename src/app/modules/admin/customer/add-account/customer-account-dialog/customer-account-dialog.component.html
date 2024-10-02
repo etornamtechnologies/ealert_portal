@@ -1,0 +1,226 @@
+<div fxLayout="column">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <h2 class="text-base font-bold">
+                Add New Account to ({{customer.fname}} {{customer.lname}})
+            </h2>
+            <button mat-icon-button (click)="matDialogRef.close()">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+
+    <div class="py-4 mt-4">
+      <div class="text-base text-blue-700 dark:text-blue-400 font-bold">{{customer.fname}}'s  Already Linked Account(s)</div>
+      <app-table-loader *ngIf="isUnlinkLoading"></app-table-loader>
+        <div class="bg-card mat-elevation-z2 rounded-xl overflow-hidden" *ngIf="!isUnlinkLoading">
+                <div class="flex flex-col flex-auto items-stretch overflow-x-auto">
+                    <mat-table [dataSource]="dataSource2" matSort class="bg-gray-50 dark:bg-gray-700">
+
+                        <ng-container matColumnDef="account_no">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="font-bold text-black dark:text-gray-400">Account No</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <div class="text-sm"> {{row.accountNo}} </div>
+                            </mat-cell>
+                        </ng-container>
+    
+    
+                            <ng-container matColumnDef="linked_by">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                  <div class="font-bold text-black dark:text-gray-400">Linked By</div>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> 
+                                   <div class="text-sm"> {{row.createdBy ?? 'Not Available'}}</div> 
+                                </mat-cell>
+                              </ng-container>
+    
+    
+                              <ng-container matColumnDef="date_linked">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                  <div class="font-bold text-black dark:text-gray-400">Date Linked </div>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> 
+                                   <div class="text-sm"> 
+                                      {{row.dateCreated | date: 'dd-MM-yyyy'}} {{row.dateCreated == null ? 'Not Available':''}}
+                                   </div> 
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                  <div class="font-bold text-black dark:text-gray-400">Status </div>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> 
+                                   <div class="text-sm"> 
+                                      <div *ngIf="row.status === 'A'">
+                                        <div fxLayout="row" fxLayoutGap="6px" fxLayoutAlign="start center">
+                                          <mat-icon svgIcon="mat_solid:check_circle" class="icon-size-5 text-green-600"></mat-icon>
+                                          <span class="text-sm font-bold">
+                                              Account Linked 
+                                          </span>
+                                      </div>
+                                      </div>
+                                      <div *ngIf="row.status !== 'A'">
+                                        <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center">
+                                          <mat-icon svgIcon="mat_solid:block" class="icon-size-6 text-red-600"></mat-icon>
+                                          <span class="text-sm font-bold">
+                                              Account Delinked 
+                                          </span>
+                                      </div>
+                                      </div>
+                                   </div> 
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                  <div *ngIf="branch === '000'" class="font-bold text-black dark:text-gray-400">Action </div>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> 
+                                   <div *ngIf="branch === '000'" class="text-md text-red-600 rounded-lg bg-white dark:bg-gray-50 mat-elevation-z1 py-1 px-6 cursor-pointer" (click)="unlinkCustomerAccount(row)"> 
+                                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                      <div class="mt-1">Delink</div>
+                                      <mat-icon svgIcon="mat_solid:social_distance" class="icon-size-6 text-red-500"></mat-icon>
+                                    </div>
+                                      
+                                   </div> 
+                                </mat-cell>
+                              </ng-container>
+    
+                          <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: displayedColumns2; let i = index;">
+                          </mat-row>
+                </mat-table>
+                <div class="p-8 text-lg text-blue-600 font-semibold text-center" *ngIf="linkedAccounts.length === 0">
+                    <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-8 text-blue-400"></mat-icon>
+                    <div>No records found</div>
+                </div>
+                </div>
+        </div>
+    </div>
+
+
+    <mat-divider class="mt-4 mb-1 px-8"></mat-divider>
+    <div fxLayout="column" class="py-1">
+        <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5px">
+            <div fxLayout="column" [@animate]="{value:'*', params:{delay:'200ms',scale:'.2'}}" fxFlex="67">
+                <label class="leading-5">
+                  <b class="text-sm">Enter Customer Number (CIF)</b>
+                </label>
+                <mat-form-field appearance="outline" class="text-xs">
+                  <mat-label>Customer Number</mat-label>
+                  <input matInput #cif>
+                </mat-form-field>
+              </div>
+
+              <button 
+                type="submit" 
+                [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}"
+                [disabled]="isLoading"
+                mat-flat-button 
+                (click)="verifyAccount(cif.value)"
+                class="w-40 rounded-md mt-6 bg-cyan-500 text-white">
+                Verify Account &nbsp;
+                <span matSuffix><mat-icon class="icon-size-4">account_balance</mat-icon></span>
+              </button>
+        </div>
+        <div class="py-0.5">
+          <app-table-loader *ngIf="isLoading"></app-table-loader>
+            <div class="bg-card mat-elevation-z2 rounded-xl overflow-hidden">
+                    <div class="flex flex-col flex-auto items-stretch overflow-x-auto">
+                        <mat-table [dataSource]="dataSource" matSort class="bg-gray-50 dark:bg-gray-700">
+
+                            <ng-container matColumnDef="account_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                  <div class="font-bold text-black dark:text-gray-400">Account Name</div>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <div class="text-sm"> {{row.accountName}} </div>
+                                </mat-cell>
+                            </ng-container>
+        
+        
+                                <ng-container matColumnDef="currency">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                      <div class="font-bold text-black dark:text-gray-400">Currency</div>
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> 
+                                       <div class="text-sm"> {{row.currencyCode}}</div> 
+                                    </mat-cell>
+                                  </ng-container>
+        
+        
+                                  <ng-container matColumnDef="account_no">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                      <div class="font-bold text-black dark:text-gray-400">Account Number </div>
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> 
+                                       <div class="text-sm"> 
+                                          {{row.accountNumber}}
+                                       </div> 
+                                    </mat-cell>
+                                  </ng-container>
+                          
+        
+                                  <ng-container matColumnDef="action">
+                                      <mat-header-cell *matHeaderCellDef>
+                                          <div class="font-bold text-black dark:text-gray-400">
+                                            <mat-checkbox 
+                                              matTooltip="Select all accounts" 
+                                              [disabled]="masterDisabled"
+                                              [(ngModel)]="master"
+                                              [ngModelOptions]="{ standalone: true }"
+                                              (ngModelChange)="checkUncheckAll()" aria-label="Select">
+                                                All
+                                            </mat-checkbox>
+                                          </div>
+                                      </mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> 
+                                        <mat-checkbox 
+                                          matTooltip="Select Account" 
+                                          [disabled]="row.isLinked"
+                                          [(ngModel)]="row.selected"
+                                          [ngModelOptions]="{ standalone: true }"
+                                          (ngModelChange)="accountIsClicked(row)" 
+                                          aria-label="Select">
+                                        </mat-checkbox>
+                                        <span *ngIf="row.isLinked" class="text-red-800 dark:text-gray-300 text-xs font-bold">Linked</span>
+                                      </mat-cell>
+                                  </ng-container>
+        
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" [ngClass]="{'bg-red-100 dark:bg-red-600': row.isLinked,'bg-green-100 dark:bg-green-600 ': row.selected}">
+                              </mat-row>
+                    </mat-table>
+                    <div class="p-8 text-lg text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                        <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-8 text-blue-400"></mat-icon>
+                        <div>No records found</div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <mat-divider class="mt-4 mb-2 px-8"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="end" class="p-2">
+        <button 
+            [@animate]="{value:'*', params:{delay:'200ms',scale:'.5'}}"
+            (click)="this.matDialogRef.close()"
+            class="bg-gray-200 dark:bg-gray-700 w-36 rounded-md"
+            mat-flat-button 
+            type="button">
+                Close
+        </button>
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="ml-2 w-36 rounded-md"
+            mat-raised-button
+            [disabled]="selectedAccounts.length === 0"
+            (click)="saveAccount()"
+            [color]="'primary'">
+                Save Account
+        </button>
+    </div>
+</div>

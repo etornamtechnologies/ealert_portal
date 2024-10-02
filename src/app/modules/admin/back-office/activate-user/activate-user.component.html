@@ -1,0 +1,142 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">ADB User Management</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Enable ADB User</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                  Enable ADB Users
+              </h2>
+          </div>
+      </div>
+  </div>
+
+    <div class="mat-card mx-4 my-4 p-3 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+      <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Who are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0 hidden" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="firstname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">First Name</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.fname}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="locked">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="font-bold text-black dark:text-gray-400">Locked</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <div [ngClass]="{'text-orange-500': row.locked ==='Y','text-green-600': row.locked !=='Y'}" class="text-sm"> {{row.locked ==='Y' ? 'Yes' : 'No' }} </div>
+                          </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="phone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Phone Number</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.phoneNumber}} </div>
+                        </mat-cell>
+                    </ng-container>
+                
+                  
+                      <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Email </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm" [matTooltip]="row.emailAddress"> {{row.emailAddress}}</div> 
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="role">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">User Role </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                             <div class="text-sm"> {{row.roleId}}</div> 
+                          </mat-cell>
+                        </ng-container>
+
+                          <ng-container matColumnDef="branch">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">User Branch </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.branch}}</div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="auth_stat">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Auth Status </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <div [ngClass]="{'text-green-500': row.authStat ==='A','text-yellow-600': row.authStat !=='A'}" class="text-sm"> 
+                                  {{row.authStat ==='A' ? 'Authorized' : 'UnAuthorized' }} 
+                                </div>
+                                
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Status </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <div [ngClass]="{'text-green-600': row.status ==='A','text-red-600': row.status !=='A'}" class="text-sm"> 
+                                  {{row.status ==='A' ? 'Active' : 'Blocked' }} 
+                                </div>
+                                
+                            </mat-cell>
+                          </ng-container>
+                  
+
+                          <ng-container matColumnDef="actions">
+                              <mat-header-cell *matHeaderCellDef>
+                                  <div class="text-bold text-black dark:text-gray-400">ACTIONS</div>
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row"> 
+                                  <button mat-stroked-button class="text-green-700 my-1" (click)="activateUser(row)">
+                                    Enable User&nbsp;<mat-icon class="icon-size-4 text-green-700">done_all</mat-icon>
+                                  </button>
+                              </mat-cell>
+                          </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+</div>

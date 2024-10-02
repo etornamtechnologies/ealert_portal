@@ -1,0 +1,73 @@
+<div fxLayout="column" style="height: 650px;" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" >
+                <mat-icon svgIcon="mat_solid:check_circle" class="icon-size-8 text-green-600"></mat-icon>
+                <h2 class="text-base font-bold">
+                    MATCHED CUSTOMERS ACCOUNT
+                </h2>
+                
+            </div>
+            <button mat-icon-button (click)="matDialogRef.close()">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+    <div class="mt-6 px-8"></div>
+    <div fxLayout="column">
+        
+        <div class="px-1">
+            <div class="dark:bg-gray-800 mat-elevation-z3 rounded-xl">
+                    
+                    <div class="not-prose relative bg-slate-200 rounded-xl overflow-hidden dark:bg-slate-800/25">
+                        <div class="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" style="background-position: 10px 10px;"></div>
+                        <div class="relative rounded-xl overflow-auto">
+                        <div class="shadow-sm overflow-hidden mt-4 mb-6">
+                        <table class="border-collapse table-fixed w-full text-base">
+                            <thead>
+                            <tr>
+                                <th class="border-b dark:border-slate-600 font-bold p-3 pt-0 pb-3 text-slate-800 dark:text-blue-800 text-center text-lg">Customer Name</th>
+                                <th class="border-b dark:border-slate-600 font-bold p-3 pt-0 pb-3 text-slate-800 dark:text-blue-800 text-center text-lg">Account Number</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-slate-800">
+                            <tr *ngFor="let account of accounts">
+                                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-700 dark:text-slate-400 text-left ">{{account.customerName}}</td>
+                                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-center ">{{account.accountNumber}}</td>
+                                
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-4"></div>
+    <div fxLayout="row" fxLayoutAlign="end">
+    <div fxLayout="column" fxLayoutAlign="end" class="p-2">
+        <button 
+        [@animate]="{value:'*', params:{delay:'200ms',scale:'.5'}}"
+        (click)="SubmitCustomer()"
+        class="rounded-md text-blue-400 bg-gray-100 w-32"
+        mat-flat-button 
+        type="button">
+            Submit Customers
+    </button></div>
+    <div fxLayout="column" fxLayoutAlign="end" class="p-2">
+        
+        <button 
+            [@animate]="{value:'*', params:{delay:'200ms',scale:'.5'}}"
+            (click)="this.matDialogRef.close()"
+            class="rounded-md text-orange-400 bg-gray-100 w-28"
+            mat-flat-button 
+            type="button">
+                Close
+        </button>
+    </div>
+</div>
+    
+</div>

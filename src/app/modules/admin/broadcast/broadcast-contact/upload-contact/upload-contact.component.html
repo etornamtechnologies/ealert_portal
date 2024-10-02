@@ -1,0 +1,35 @@
+<div class="bg-primary-700 p-4 mx-4 mt-6 text-white text-lg font-bold">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-icon
+         class="icon-size-7 text-white"
+         [svgIcon]="'heroicons_solid:upload'">
+    </mat-icon>
+    <div>Upload Broadcast Contacts</div>
+    </div>
+    
+</div>
+<div class="mat-card mx-4 mb-4 py-8 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    
+    
+    <div class="font-bold text-lg mb-2" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.2'}}">
+        Upload Contact Details <a fxLayoutAlign="end end" mat-stroked-button href="/assets/templates/BulkBroadcastContact.xlsx">Dowlaod Excel Template<mat-icon>get_app</mat-icon></a>
+    </div>
+
+    <!-- <input type="file" name="contact" id="contact" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.2'}}"> -->
+    <input type="file" formControlName="myfile" value="myfile" name="contact" id="contact" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.2'}}" (change)="onFileSelect($event)">
+
+    <button 
+        type="submit"
+        (click)="SubmitExcelTemp()" 
+        [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.2'}}"
+        mat-raised-button 
+        color="primary" 
+        class="w-48 mt-6 rounded-md">
+        <mat-icon
+                class="icon-size-5 text-white"
+                [svgIcon]="'heroicons_solid:cloud-upload'">
+        </mat-icon>
+        &nbsp;Upload Contacts
+     </button>
+    
+</div>

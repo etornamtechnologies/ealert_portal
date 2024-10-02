@@ -1,0 +1,162 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">User Management</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Manage User</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    Manage Users
+              </h2>
+          </div>
+      </div>
+  </div>
+
+    <div class="mat-card mx-4 my-4 p-3 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+      <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+          <div fxLayout="row" class="mt-16" fxLayoutAlign="start start" fxLayoutGap="10px" fxFlex="72">
+            <button matTooltip="Export Excel" mat-stroked-button (click)="exportToExcel()" class="p-8">
+              <img src="/assets/images/icons/xls.png" width="32" height="10">
+            </button>
+          </div>
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Who are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0 hidden" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="fullname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Full Name</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.fullname}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <!-- <ng-container matColumnDef="locked">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="font-bold text-black dark:text-gray-400">Locked</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <div [ngClass]="{'text-orange-500': row.locked ==='Y','text-green-600': row.locked !=='Y'}" class="text-sm"> {{row.locked ==='Y' ? 'Yes' : 'No' }} </div>
+                          </mat-cell>
+                      </ng-container> -->
+
+                      <ng-container matColumnDef="username">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Username</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.username}} </div>
+                        </mat-cell>
+                    </ng-container>
+                
+                  
+                      <!-- <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Email </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm" [matTooltip]="row.emailAddress"> {{row.emailAddress}}</div> 
+                        </mat-cell>
+                      </ng-container> -->
+
+                      <ng-container matColumnDef="role">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">User Role </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                             <div class="text-sm"> {{row.role?.name}}</div> 
+                          </mat-cell>
+                        </ng-container>
+
+                          <ng-container matColumnDef="branch">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">User Branch </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.branch}}</div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="department">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Department </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm">
+                                {{row.department?.name}}
+                                 <!-- {{row.department.departmentName}} -->
+                                </div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="auth_stat">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Auth Status </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <div [ngClass]="{'text-green-500': row.isApproved ===1,'text-yellow-600': row.isApproved ==0}" class="text-sm"> 
+                                  <!-- {{row.status === 'A' ? 'Activated' : 'Deactivated' }}  -->
+                                  {{trancribe_active(row.status)}}
+                                </div>
+                                
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Status </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <div [ngClass]="{'text-green-600': row.status ==='A','text-red-600': row.status !=='A'}" class="text-sm"> 
+                                  {{row.isActive ==='A' ? 'Active' : 'Offline' }} 
+                                </div>
+                                
+                            </mat-cell>
+                          </ng-container>
+                  
+
+                          <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef>
+                                <div class="text-bold text-black dark:text-gray-400">ACTIONS</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <button matTooltip="Edit {{row.fullName}}" matTooltipClass="manage-user-mat-tooltip" mat-icon-button class="text-blue-600 my-0.5 text-sm" (click)="editUser(row)"><mat-icon class="icon-size-5 text-blue-600" svgIcon="heroicons_outline:pencil"></mat-icon></button>&nbsp;
+                                <button *ngIf="row.status=== 'A'" matTooltip="Deactivate {{row.fullName}}" matTooltipClass="manage-user-mat-tooltip" mat-icon-button class="text-blue-600 my-0.5 text-sm" (click)="userdeativate(row)"><mat-icon class="icon-size-5 text-blue-600" svgIcon="heroicons_outline:ban"></mat-icon></button>&nbsp;
+                                <button *ngIf="row.status=='N'" matTooltip="Activate {{row.fullName}}" matTooltipClass="manage-user-mat-tooltip" mat-icon-button class="text-blue-600 my-0.5 text-sm" (click)="userativate(row)"><mat-icon class="icon-size-5 text-blue-600" svgIcon="heroicons_outline:check"></mat-icon></button>&nbsp;
+                                <!-- <button matTooltip="Reset {{row.fname}}'s Password" matTooltipClass="manage-user-mat-tooltip" mat-icon-button class="text-green-600 my-0.5 text-sm" (click)="resetUserPassword(row)"><mat-icon class="icon-size-5 text-green-600" svgIcon="heroicons_outline:refresh"></mat-icon></button> -->
+                            </mat-cell>
+                          </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+
+  </div>

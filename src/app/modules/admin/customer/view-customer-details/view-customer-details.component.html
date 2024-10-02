@@ -1,0 +1,147 @@
+<div fxLayout="column">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <h2 class="text-base font-bold">
+                View Customer Details
+            </h2>
+            <button mat-icon-button (click)="matDialogRef.close()">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+    <div fxLayout="column" class="py-1 px-4" style="height: 550px;" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}">
+        <table class="table-auto">
+            <thead>
+              <tr>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer Name</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.acDesc}}</td> 
+            </tr> -->
+            <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer ID</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.custId}}</td> 
+            </tr>
+            <tr>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer Account Number</td>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.accNo}}</td> 
+             </tr>
+             <!-- <tr>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Branch</td>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.branch}}</td> 
+             </tr> -->
+             <tr>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">SMS Alert</td>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.smsAlert==1 ? "YES" : "NO"}}</td> 
+             </tr>
+             <tr>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Email Alert</td>
+              <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.emailAlert==1 ? "YES" : "NO"}}</td> 
+             </tr>
+             <!-- continue -->
+              <!-- <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-md text-indigo-600 dark:text-indigo-400 py-3">Accounts</td>
+                <td class="font-semibold text-md dark:text-gray-300">
+                  <div fxLayout="row" fxLayoutAlign="center" class="p-1" *ngIf="isLoading">
+                    <div class="mr-2 mt-2">
+                        <mat-progress-spinner
+                        [diameter]="20"
+                        [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                    </div>
+                    <div class="text-lg font-semibold text-green-700">
+                        Loading...
+                    </div>
+                </div>
+                  <li *ngFor="let account of accounts" class="my-2" [ngClass]="{'list-disc': accounts.length > 1,'list-none': accounts.length == 1}">
+                    {{account.accountNo}} <span *ngIf="account.accountNo === customer.accountNumber" class="text-xs font-normal bg-green-600 text-white px-2 py-1 ml-1 rounded-md">Primary</span>
+                  </li>
+                </td>
+              </tr> -->
+              <!-- just in case for loading -->
+              
+              <tr> 
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Daily Statements</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.dailyStmnt==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Weekly Statements</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.weeklyStmnt==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Monthly Statements</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.monthlyStmnt==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Birthday SMS Alert</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantBirthdaySMSAlert==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Birthday Email Alert</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantBirthdayEmailAlert==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Date Of Birth</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.dateOfBirth }}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Auto Sync</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.autoSync==1 ? "YES" : "NO"}}</td> 
+               </tr>
+               <tr>
+              <!-- <div fxLayout="row"rowspan="2" class="width=300px" *ngIf="customer.autoSync!=1 ? true : false"> -->
+                  <tr>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Email</td>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left "> {{customer.autoSync==1 ? "FETCH FROM FLEXCUBE" : customer.email}} </td>
+                      <!-- {{customer.email}}</td>  -->
+                  </tr>
+              <!-- </div> -->
+                  <tr>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Phone</td>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.autoSync==1 ? "FETCH FROM FLEXCUBE" : customer.phone}}</td> 
+                  </tr>
+              
+                  <tr>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Active Mobile</td>
+                    <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.autoSync==1 ? "FETCH FROM FLEXCUBE" : customer.activeMobile ?? "Not Available"}}</td> 
+                  </tr>
+              
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Credit Limit</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.creditLimit ?? "Not Available"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Debit Limit</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.debitLimit ?? "Not Available"}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">BIC Code</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.bicCode ?? "Not Available"}}</td> 
+               </tr>
+               <!-- <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Gender</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.gender}}</td> 
+               </tr>
+               <tr>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Religion</td>
+                <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.religion}}</td> 
+               </tr> -->
+            </tbody>
+          </table>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end" class="p-2">
+        
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-28"
+            (click)="this.matDialogRef.close()"
+            mat-raised-button
+            [color]="'accent'">
+                Close
+        </button>
+    </div>
+</div>

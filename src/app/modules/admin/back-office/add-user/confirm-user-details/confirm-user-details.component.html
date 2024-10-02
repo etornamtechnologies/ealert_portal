@@ -1,0 +1,71 @@
+<div fxLayout="column">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <h2 class="text-base font-bold">
+                Confirm User Details
+            </h2>
+            <button mat-icon-button (click)="matDialogRef.close(false)">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+    <div fxLayout="column" class="py-1 px-4">
+        <table class="table-auto">
+            <thead>
+              <tr>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">First Name</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Firstname}}</td>
+              </tr>
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Last Name</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Lastname}}</td>
+              </tr>
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Username</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Username}}</td>
+              </tr>
+              <!-- <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Email</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Email}}</td>
+              </tr> -->
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Department</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Department.name}}</td>
+              </tr>
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Role</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.UserRole.name}}</td>
+              </tr>
+              <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="font-bold text-sm text-blue-600 dark:text-blue-400 py-3">Branch</td>
+                <td class="font-semibold text-sm dark:text-gray-300">{{user.Branch.branchName}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="p-2">
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-40"
+            (click)="this.matDialogRef.close(false)"
+            mat-raised-button
+            [color]="'warn'">
+                Cancel
+        </button>
+
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-44"
+            (click)="this.matDialogRef.close(true)"
+            mat-raised-button
+            [color]="'accent'">
+                Create User
+        </button>
+    </div>
+</div>

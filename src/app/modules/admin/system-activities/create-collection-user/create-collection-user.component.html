@@ -1,0 +1,142 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500 text-sm">System Activities</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500 text-sm">Collection Users</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500 text-sm">Create Collection User</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-0">
+                <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    Create Collection User
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div fxLayout="row" fxLayoutGap="30px" class="p-4">
+        <div fxLayout="column" fxFlex="65">
+            <div class="mat-card rounded-md flex-auto p-6">
+                <div fxLayout="row">
+                    <form name="CreateUser" (ngSubmit)="createUser()" [formGroup]="CreateUserForm" fxFlex="70">
+
+                        <div class="flex flex-col mt-0.5 p-2 overflow-hidden">
+                            <p class="text-lg font-medium" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">Required information</p>
+                            <p class="text-secondary text-sm" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">
+                                Kindly provide information about the collection user to be created.
+                            </p>
+                            <mat-divider class="mt-4 mb-8"></mat-divider>
+                            <div class="flex flex-col gt-xs:flex-row">
+                                <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.5'}}">
+                                    <mat-select [placeholder]="'Collection *'" formControlName="Collection">
+                                        <mat-option *ngFor="let collection of collections" [value]="collection.description">{{collection.description}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_outline:library'"></mat-icon>
+                                        <mat-error>Collection is required!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-col gt-xs:flex-row">
+                                <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.5'}}">
+                                    <input matInput [placeholder]="'First Name *'" formControlName="Firstname">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                        <mat-error>First name is required!</mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.5'}}">
+                                    <input matInput [placeholder]="'Last Name *'" formControlName="Lastname">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'mat_outline:person_pin'"></mat-icon>
+                                        <mat-error>Last name is required!</mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'400ms',scale:'.5'}}">
+                                    <input matInput [placeholder]="'Username *'" formControlName="Username">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                                        <mat-error>Username is required!</mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'500ms',scale:'.5'}}">
+                                    <input type="tel" matInput [placeholder]="'Mobile Number *'" formControlName="Mobile">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'mat_outline:phone_android'"></mat-icon>
+                                        <mat-error>Phone number is required!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="flex-auto" [@animate]="{value:'*', params:{duration:'300ms',delay:'600ms',scale:'.5'}}">
+                                    <input type="email" matInput [placeholder]="'Email Address *'" formControlName="Email">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                                        <mat-error>Email is required!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="flex items-center justify-end border-t -mx-8 mt-4 px-8 py-2 bg-gray-50 dark:bg-slate-700">
+                                <button 
+                                    [@animate]="{value:'*', params:{duration:'300ms',delay:'800ms',scale:'.5'}}"
+                                    [routerLink]="'/xmobileadmin/system-activities/collection-users'"
+                                    class="px-6  bg-gray-200 dark:bg-slate-800 w-32 rounded-md"
+                                    mat-flat-button 
+                                    type="button">
+                                    Cancel
+                                </button>
+                                <button
+                                    [@animate]="{value:'*', params:{duration:'300ms',delay:'900ms',scale:'.5'}}"
+                                    class="px-6 ml-3 w-32 rounded-md"
+                                    mat-raised-button
+                                    [color]="'primary'">
+                                    Save Account
+                                </button>
+                            </div>
+                        </div>
+        
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+        <div fxLayout="column" fxFlex="30">
+            <div class="mat-card rounded-md px-12 py-24" fxLayout="column">
+                <img src="assets/images/icons/educator.svg" class="h-40 w-40 place-self-center" [@animate]="{value:'*',params:{duration:'300ms',delay:'200ms',y:'-80%'}}"> 
+                <div class="mt-4 text-center p-2 text-xl font-bold" [@animate]="{value:'*',params:{duration:'300ms',delay:'300ms',y:'80%'}}">
+                    Create Collection User
+                </div>
+                <div class="text-center p-4 pt-0 text-gray-400 text-base" [@animate]="{value:'*',params:{duration:'300ms',delay:'400ms',y:'80%'}}">
+                    create a new collection user to manage collections within the mobile banking platform.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                
+</div>

@@ -1,0 +1,67 @@
+<div fxLayout="column" style="height: 550px;">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <h2 class="text-base font-bold">
+                Confirm User Details
+            </h2>
+            <button mat-icon-button (click)="matDialogRef.close(false)">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+    <div fxLayout="column" class="py-1 px-4 overflow-y-auto" style="height: 500px;">
+        <table class="table-auto">
+            <thead>
+              <tr>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">First Name</td>
+                <td class="font-semibold text-sm">{{user.firstname}}</td>
+              </tr>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">Last Name</td>
+                <td class="font-semibold text-sm">{{user.lastname}}</td>
+              </tr>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">Username</td>
+                <td class="font-semibold text-sm">{{user.username}}</td>
+              </tr>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">Email</td>
+                <td class="font-semibold text-sm">{{user.email}}</td>
+              </tr>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">Phone Number</td>
+                <td class="font-semibold text-sm">{{user.phone}}</td>
+              </tr>
+              <tr class="border-b border-gray-300">
+                <td class="font-extrabold text-sm text-blue-600 py-3">Collection</td>
+                <td class="font-semibold text-sm">{{user.collection}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="p-2">
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-40"
+            (click)="this.matDialogRef.close(false)"
+            mat-raised-button
+            [color]="'primary'">
+                Close
+        </button>
+
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-44"
+            (click)="this.matDialogRef.close(true)"
+            mat-raised-button
+            [color]="'accent'">
+                Save Account
+        </button>
+    </div>
+</div>

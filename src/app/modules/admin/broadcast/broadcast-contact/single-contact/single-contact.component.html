@@ -1,0 +1,137 @@
+<div class="bg-blue-800 p-4 mx-4 mt-6 text-white text-lg font-bold">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-icon
+            class="icon-size-7 text-white"
+            [svgIcon]="'heroicons_solid:user-add'">
+        </mat-icon>
+        <div>Broadcast Customer Registration</div>
+    </div>
+    
+</div>
+<div class="mat-card mx-4 mb-4 py-8 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    
+    
+    <div fxLayout="row">
+        <form name="CreateUser" (ngSubmit)="authorizeBroadContact()" [formGroup]="CreateUserForm" fxFlex="65">
+
+            <div class="flex flex-col mt-0.5 p-2 overflow-hidden">
+                <p class="text-lg font-medium" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">Required information</p>
+                <p class="text-secondary text-sm" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">
+                    Kindly provide information about the customer to be registered.
+                </p>
+                <mat-divider class="mt-4 mb-8"></mat-divider>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.5'}}">
+                        <input matInput [placeholder]="'Full Name *'" formControlName="FullName">
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-error>Full name is required!</mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <div class="flex">
+                        <mat-form-field class="flex-auto" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.5'}}">
+                            <input type="email" matInput [placeholder]="'Email Address *'" formControlName="Email" 
+                            matTooltip="Separate multiple emails with commas ( , )" 
+                            matTooltipClass="user-mat-tooltip-font" 
+                            [matTooltipPosition]="'below'">
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                                <mat-error>Email is required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.5'}}">
+                        <input type="tel" matInput [placeholder]="'Mobile Number *'" formControlName="Mobile" 
+                        matTooltip="Separate multiple phone numbers with commas ( , )" 
+                        matTooltipClass="user-mat-tooltip-font" 
+                        [matTooltipPosition]="'below'">
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'mat_outline:phone_android'"></mat-icon>
+                            <mat-error>Phone number is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'500ms',delay:'500ms',scale:'.5'}}">
+                    <mat-select  [placeholder]="'Account Type *'" formControlName="AccountType">
+                        <mat-option *ngFor="let acctype of accountType" [value]="acctype.accountClass">{{ acctype.description }}</mat-option>
+                    
+                    </mat-select>
+
+                    
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                        <mat-error>Account Type is required!</mat-error>
+                    
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'400ms',delay:'700ms',scale:'.5'}}">
+                        <mat-select [placeholder]="'Gender *'" formControlName="Gender">
+                            <mat-option value="Male">Male</mat-option>
+                            <mat-option value="Female">Female</mat-option>
+                        </mat-select>
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                            <mat-error>Gender is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'800ms',scale:'.5'}}">
+                        <mat-select [placeholder]="'Religion *'" formControlName="Religion">
+                            <mat-option value="Christianity">Christianity</mat-option>
+                            <mat-option value="Islam">Islam</mat-option>
+                            <mat-option value="Hinduism">Hinduism</mat-option>
+                            <mat-option value="Judaism">Judaism</mat-option>
+                        </mat-select>
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                            <mat-error>Religion is required!</mat-error>
+                    </mat-form-field>
+                    
+                    
+                </div>
+                <div class="font-bold text-md mb-2 ml-1" [@animate]="{value:'*', params:{duration:'300ms',delay:'900ms',scale:'.2'}}">
+                    Broadcast Alert Subscriptions
+                </div>
+                <mat-checkbox matTooltip="SMS Alert" matTooltipClass="SMS Alert"
+                        [@animate]="{value:'*',params:{duration:'300ms',delay:'600ms',scale:'.5'}}"
+                        class="remember-me py-1 ml-20" formControlName="SMSAlert" aria-label="SMS Alert">
+                        Broadcast SMS Alert
+                </mat-checkbox>
+                <mat-checkbox matTooltip="Email Alert" matTooltipClass="Email Alert"
+                        [@animate]="{value:'*',params:{duration:'300ms',delay:'650ms',scale:'.5'}}"
+                        class="remember-me py-1 ml-20" formControlName="EmailAlert" aria-label="Email Alert">
+                        Broadcast Email Alert
+                </mat-checkbox>
+                <div class="flex items-center justify-end border-t -mx-8 mt-4 px-8 py-2 bg-gray-50 dark:bg-slate-700">
+                    <button 
+                        [@animate]="{value:'*', params:{duration:'300ms',delay:'800ms',scale:'.5'}}"
+                        [routerLink]="'/xmobileadmin/dashboard'"
+                        class="px-6  bg-gray-200 dark:bg-slate-800 w-36 rounded-md"
+                        mat-flat-button 
+                        type="button">
+                        Cancel
+                    </button>
+                    <button
+                        [@animate]="{value:'*', params:{duration:'300ms',delay:'900ms',scale:'.5'}}"
+                        class="px-6 ml-3 w-36 rounded-md"
+                        mat-raised-button
+                        [color]="'primary'">
+                        Register
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
+</div>

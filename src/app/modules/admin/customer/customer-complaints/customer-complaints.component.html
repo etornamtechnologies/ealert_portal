@@ -1,0 +1,134 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Customer Management</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Customer Complaints</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                Customer Complaints
+              </h2>
+          </div>
+      </div>
+  </div>
+
+    <div class="mat-card mx-4 my-4 p-3 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+      <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Who are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0 hidden" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="complaint_date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Complaint Date</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.dateCreated | date:'dd/MM/yy, h:mm a'}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="type">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="font-bold text-black dark:text-gray-400">Type</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                              <div class="text-sm"> {{row.type}} </div>
+                          </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="phone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Phone Number</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.phone}} </div>
+                        </mat-cell>
+                    </ng-container>
+                
+                  
+                      <ng-container matColumnDef="message">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Message </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> {{row.message}}</div> 
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="subject">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">Subject </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                             <div class="text-sm"> {{row.subject}}</div> 
+                          </mat-cell>
+                        </ng-container>
+
+                          <ng-container matColumnDef="user_id">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">User Id </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.userId}}</div> 
+                            </mat-cell>
+                          </ng-container>  
+
+                          <ng-container matColumnDef="ref_no">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Ref No </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                                <div class="text-sm"> 
+                                  {{row.refNo }} 
+                                </div>
+                                
+                            </mat-cell>
+                          </ng-container>
+                  
+
+                          <ng-container matColumnDef="actions">
+                              <mat-header-cell *matHeaderCellDef>
+                                  <div class="text-bold text-black dark:text-gray-400">Status</div>
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row">
+                                    <div [ngClass]="{'text-green-500': row.resolved !=='N','text-yellow-500': row.resolved ==='N'}" class="text-sm font-bold">
+                                        {{row.resolved === 'N' ? "PENDING" : "RESOLVED" }} 
+                                    </div>
+                                    &nbsp;&nbsp;
+                                <button *ngIf="row.resolved ==='N'" matTooltip="Mark as Resolved" mat-stroked-button class="text-green-600 my-0.5 text-sm" (click)="markAsResolved(row.refNo)">
+                                    <mat-icon class="icon-size-5 text-green-600" svgIcon="heroicons_outline:check"></mat-icon>
+                                </button>
+                              </mat-cell>
+                          </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+</div>

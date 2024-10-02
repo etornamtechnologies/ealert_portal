@@ -1,0 +1,39 @@
+<div class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar style="max-height: 310px; overflow: auto;">
+  <form name="tokenForm" fxLayout="column" (ngSubmit)="validateTokenTemporal(tokenForm)" [formGroup]="tokenForm">
+    <div class="p-4 mat-card mat-elevation-z2 grey-50">
+      <div *ngIf="!isTokenValid" class="my-8">
+         
+         <div fxLayout="column" fxLayoutAlign="center center" class="p-0">
+              <img src="/assets/images/logo/DASH_BOARD_LOGO.png" width="25" >
+          </div>
+          <div class="font-size-14 text-bold text-center mb-2" fxLayoutAlign="center center">
+               TOKEN VALIDATION
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start">
+              <!-- <label class="line-height-50" fxFlexOffset="5" fxFlex="15"><b class="font-size-12">Token :</b></label> -->
+              <mat-form-field appearance="outline"  fxFlexOffset="13" fxFlex="75">
+                  <mat-label>Input Token</mat-label>
+                      <input matInput formControlName="token" autocomplete="off" placeholder="Please input token for validation..." />
+                      <mat-error>Please input token for validation</mat-error>
+              </mat-form-field>
+              
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center" *ngIf="showLoader" class="my-8">
+              <div class="loading"></div>
+              <span class="line-height-30">Verifying token, please wait....</span>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+              <button type="button" fxFlex="30" #cancelBtn mat-stroked-button (click)="matDialogRef.close()"><mat-icon>clear</mat-icon> Cancel</button>
+              <button type="submit" fxFlex="30" #saveBtn mat-flat-button [color]="'primary'"><mat-icon>check</mat-icon> Submit</button>
+          </div>
+          
+      </div>
+      <div fxLayout="column" fxLayoutAlign="center center" *ngIf="isTokenValid" class="p-16" fxLayoutGap="10px">
+          <img src="/assets/images/icons/success.svg" width="150" height="150">
+          <span class="font-size-14 text-bold text-center px-24">Token validation was successful, redirecting to dashboard...</span>
+      </div>
+    </div>
+ </form>
+</div>

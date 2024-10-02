@@ -1,0 +1,63 @@
+<div fxLayout="column" class="bg-white dark:bg-gray-900">
+    <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <img src="assets/images/logo/logo.png" class="w-16" fxFlexOffset="43">
+            <button mat-icon-button (click)="userAction()">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-700 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center" class="mt-4">
+        <img src="assets/images/icons/success.svg" class="h-22 w-22 place-self-center" [@animate]="{value:'*',params:{duration:'300ms',delay:'200ms',y:'-60%'}}"> 
+        <div fxLayout="column" class="my-2 mx-4">
+            <!-- Title -->
+            <ng-container *ngIf="data.title">
+                <div
+                    class="text-lg leading-6 font-bold"
+                    [innerHTML]="data.title"></div>
+            </ng-container>
+            <!-- Message -->
+            <ng-container *ngIf="data.message">
+                <div
+                    class="text-secondary"
+                    [innerHTML]="data.message"></div>
+            </ng-container>
+        </div>
+        
+    </div>
+    <mat-divider class="mt-4 mb-2 px-8"></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="end" class="pt-1 pb-1 pr-2">
+            <ng-container *ngIf="data.actions.confirm.show">
+                <button
+                    [@animate]="{value:'*', params:{delay:'100ms',scale:'.5'}}"
+                    class="w-32 rounded-2xl"
+                    mat-flat-button
+                    (click)="userAction()"
+                    [color]="data.actions.confirm.color">
+                        {{data.actions.confirm.label}}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="data.actions.confirmRedirect.show">
+                <button
+                    [@animate]="{value:'*', params:{delay:'100ms',scale:'.5'}}"
+                    class="w-32 rounded-2xl"
+                    mat-flat-button
+                    (click)="userAction()"
+                    [color]="data.actions.confirmRedirect.color">
+                        {{data.actions.confirmRedirect.label}}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="data.actions.confirmNoReload.show">
+                <button
+                    [@animate]="{value:'*', params:{delay:'100ms',scale:'.5'}}"
+                    class="w-32 rounded-2xl"
+                    mat-flat-button
+                    (click)="userAction()"
+                    [color]="data.actions.confirmNoReload.color">
+                        {{data.actions.confirmNoReload.label}}
+                </button>
+            </ng-container>
+            
+        </div>
+</div>

@@ -1,0 +1,139 @@
+<div fxLayout="column">
+    <!-- <div class="bg-gray-200 dark:bg-gray-700 pl-4 pr-2 py-1.5 rounded-3xl">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="flex items-center" [@animate]="{value:'*', params:{delay:'100ms',scale:'.2'}}">
+            <h2 class="text-base font-bold">
+                Confirm Customer Details
+            </h2>
+            <button mat-icon-button (click)="matDialogRef.close(false)">
+                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+            </button>
+            
+        </div>
+    </div> -->
+    <div fxLayout="column" class="py-1 px-4" style="height: 450px;" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}">
+      <div class="dark:bg-gray-800 mat-elevation-z3 rounded-xl">
+                    
+        <div class="not-prose relative bg-slate-200 rounded-xl overflow-hidden dark:bg-slate-800/25">
+            <div class="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" style="background-position: 10px 10px;"></div>
+              <div class="relative rounded-xl overflow-auto">
+                <div class="shadow-sm overflow-hidden mt-4 mb-6">
+                  <table class="border-collapse table-fixed w-full text-base">
+                      <thead>
+                      <tr>
+                          <th class="border-b dark:border-slate-600 font-bold p-3 pt-0 pb-3 text-slate-800 dark:text-blue-800 text-left text-lg">Confirm Customer Details</th>
+                          <th class="border-b dark:border-slate-600 font-bold p-3 pt-0 pb-3 text-slate-800 dark:text-blue-800 text-right text-lg">
+                            <button mat-icon-button (click)="matDialogRef.close(false)">
+                                <mat-icon svgIcon="mat_outline:close" class="icon-size-5 text-gray-600 dark:text-gray-200"></mat-icon>
+                            </button>
+                          </th>
+                      </tr>
+                      </thead>
+                      <tbody class="bg-white dark:bg-slate-800">
+                        <tr>
+                          <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer Name</td>
+                          <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.customerName}}</td> 
+                      </tr>
+                      <tr>
+                          <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer ID</td>
+                          <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.customerId}}</td> 
+                      </tr>
+                      <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Customer Account Number</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.accountNumber}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Branch</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.branch}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">SMS Alert</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantSmsAlert ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Email Alert</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantEmailAlert ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Daily Statements</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantDailyStatement ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Weekly Statements</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantWeeklyStatement ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Monthly Statements</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantMonthlyStatement ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Birthday SMS Alert</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantBirthdaySMSAlert ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Birthday Email Alert</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.wantBirthdayEmailAlert ? "YES" : "NO"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Date Of Birth</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.dateOfBirth }}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Email</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.email}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Phone</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.phoneNumber}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Active Mobile</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.activeMobile ?? "Not Available"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Credit Limit</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.creditLimit ?? "Not Available"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Debit Limit</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.debitLimit ?? "Not Available"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">BIC Code</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.bicCode ?? "Not Available"}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Gender</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.gender}}</td> 
+                       </tr>
+                       <tr>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-600 dark:text-slate-400 text-left ">Religion</td>
+                        <td class="border-b border-gray-300 dark:border-slate-700 p-3 text-slate-900 dark:text-slate-400 text-left ">{{customer.religion}}</td> 
+                       </tr>
+                      </tbody>
+                  </table>
+
+                  </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="p-2 pt-6">
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-44"
+            (click)="this.matDialogRef.close(false)"
+            mat-raised-button
+            [color]="'warn'">
+                Cancel
+        </button>
+
+        <button
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.5'}}"
+            class="w-44"
+            (click)="this.matDialogRef.close(true)"
+            mat-raised-button
+            [color]="'accent'">
+                Register Customer
+        </button>
+    </div>
+</div>

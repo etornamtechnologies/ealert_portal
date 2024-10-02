@@ -1,0 +1,119 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Settings</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Profile Account</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                  Profile Account
+              </h2>
+          </div>
+      </div>
+  </div>
+
+  <!-- Main -->
+  <div fxLayout="row" fxLayoutGap="30px" class="p-4">
+      <div fxLayout="column" fxFlex="65">
+          <div class="mat-card rounded-md flex-auto p-6">
+              <div fxLayout="row" fxLayoutAlign="center">
+                  <div fxFlex="80">
+                      <div class="bg-slate-200 dark:bg-slate-900 p-3.5 font-bold" [@animate]="{value:'*',params:{duration:'300ms',delay:'100ms',y:'-50%'}}">View your account details</div>
+                      <table class="table-auto w-full" >
+                          <thead>
+                            <tr>
+                              <th colspan="2"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'100ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">FullName</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.fulName}}</td>
+                            </tr>
+                            <!-- <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'200ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Last Name</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.lname}}</td>
+                            </tr> -->
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'300ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Username</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.username}}</td>
+                            </tr>
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'400ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Role</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.roleId}}</td>
+                            </tr>
+                            <!-- <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'500ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Email</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.emailAddress}}</td>
+                            </tr> -->
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'600ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Phone Number</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.phoneNumber}}</td>
+                            </tr>
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'700ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Status</td>
+                              <td [ngClass]="{'text-green-600': loggedInUser.status ===1,'text-yellow-500': loggedInUser.status !==1}"  class="font-semibold text-base">{{loggedInUser.status ===1 ? 'ACTIVE' : 'BLOCKED'}}</td>
+                            </tr>
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'800ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Locked</td>
+                              <td [ngClass]="{'text-orange-600': loggedInUser.locked ==='N','text-green-500': loggedInUser.locked !=='N'}"  class="font-semibold text-base">{{loggedInUser.locked === 'Y' ? 'YES' : 'NO'}}</td>
+                            </tr>
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'900ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Authorization Status</td>
+                              <td [ngClass]="{'text-green-600': loggedInUser.authStat ===true,'text-red-500': loggedInUser.authStat !==true}"  class="font-semibold text-base">{{loggedInUser.authStat === true ? 'AUTHORIZED' : 'UNAUTHORIZED'}}</td>
+                            </tr>
+                            <!-- <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'1000ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">No of Successful Login </td>
+                              <td class="font-semibold text-base text-green-600">{{loggedInUser.successCount}}</td>
+                            </tr> -->
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'1100ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Failed Login Attempts</td>
+                              <td class="font-semibold text-base text-red-500">{{loggedInUser.failedCount}}</td>
+                            </tr>
+                            <!-- <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'1200ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Date Created</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.dateCreated | date:'d/MM/yyyy, h:mm a'}} {{loggedInUser.dateCreated === null ? 'Unavailable' : ''}}</td>
+                            </tr> -->
+                            <tr class="border-b border-gray-300 dark:border-gray-400" [@animate]="{value:'*',params:{duration:'300ms',delay:'1200ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Last Login Date</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.lastLogin | date:'d/MM/yyyy, h:mm a'}} {{loggedInUser.lastLogin === null ? 'Unavailable' : ''}}</td>
+                            </tr>
+                            <tr [@animate]="{value:'*',params:{duration:'300ms',delay:'1300ms',y:'50%'}}">
+                              <td class="font-bold text-base text-blue-600 dark:text-blue-300 py-3">Branch Code</td>
+                              <td class="font-semibold text-base dark:text-gray-300">{{loggedInUser.branch}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+      <div fxLayout="column" fxFlex="30">
+          <div class="mat-card rounded-md px-12 py-24" fxLayout="column">
+              <img src="assets/images/icons/status.png" class="h-54 w-54 place-self-center" [@animate]="{value:'*',params:{duration:'300ms',delay:'200ms',y:'-80%'}}"> 
+              <div class="mt-4 text-center p-2 text-xl font-bold" [@animate]="{value:'*',params:{duration:'300ms',delay:'300ms',y:'80%'}}">
+                  My Profile Details
+              </div>
+              <div class="text-center p-4 pt-0 text-gray-400 text-base" [@animate]="{value:'*',params:{duration:'300ms',delay:'400ms',y:'80%'}}">
+                  View details about your profile account.
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+              
+</div>

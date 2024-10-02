@@ -1,0 +1,327 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Customer Management</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Register Customer</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                <mat-icon
+                    class="icon-size-5 text-secondary"
+                    [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                <a class="ml-1 text-primary-500 text-sm">Bulk Upload</a>
+            </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                Upload Customer
+              </h2>
+          </div>
+      </div>
+  </div>
+
+  <div class="bg-primary-700 p-4 mx-4 mt-6 text-white text-lg font-bold">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-icon
+         class="icon-size-7 text-white"
+         [svgIcon]="'heroicons_solid:upload'">
+    </mat-icon>
+    <div>Bulk Customer Registration</div>
+    
+    </div>
+    
+</div>
+<div *ngIf="!isAccountsVerified" class="mat-card mx-4 mb-4 py-8 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    
+  
+    
+    <div   class="font-bold text-lg mb-2"  [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.2'}}">
+        
+      Upload Customer Details <a fxLayoutAlign="end end" mat-stroked-button href="/assets/templates/RegistrationBulkUploadV2.xlsx">Dowlaod Excel Template<mat-icon>get_app</mat-icon></a>
+    </div>
+
+    <!-- <div class="font-bold text-md mb-2" fxLayout="column" fxLayoutAlign="end end" style="display:inline;" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.2'}}">
+      Dowlaod Excel
+    </div>
+    <div style="display:inline;">Upload Customer Details  </div> -->
+    
+    
+
+    
+    <form fxLayout="column" name="fileupload" [formGroup]="fileUploadForm">
+    
+    <div fxLayout="row" >
+        <!-- <div fxLayout="row" fxLayoutAlign="start"> -->
+            <input type="file" formControlName="myfile" value="myfile" name="contact" id="contact" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.2'}}" (change)="onFileSelect($event)">
+        <!-- </div> -->
+        <!-- <div fx-layout="row" fx-flex fx-layout-align="end">
+            <a mat-stroked-button href="/assets/templates/GLITZ.xlsx"
+            [@animate]="{value:'*', params:{delay:'80ms',scale:'.2'}}" class="py-4 px-8 w-40">
+            <mat-icon>get_app</mat-icon>
+            Download
+            </a>
+        </div> -->
+      </div>
+
+      </form>
+    <button 
+        type="submit" 
+        (click)="SubmitExcelTemp()"
+        [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.2'}}"
+        mat-raised-button 
+        color="primary" 
+        class="w-48 mt-6 rounded-md">
+        <mat-icon
+                class="icon-size-5 text-white"
+                [svgIcon]="'heroicons_solid:cloud-upload'">
+        </mat-icon>
+        &nbsp;Upload Customers
+     </button>
+    
+</div>
+  
+<!-- <div *ngIf="isAccountsVerified" class="flex flex-row col gt-xs:flex-col">
+
+    
+</div> -->
+
+<div  *ngIf="isAccountsVerified" class="mat-card mx-4 my-4 p-3 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    <app-table-loader *ngIf="isLoading"></app-table-loader>
+      <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+        <button type="submit" (click)="SubmitCustomer()" [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.2'}}" fxFlex="25"
+        mat-raised-button color="primary" class="w-48 mt-6 rounded-md">
+        <mat-icon
+                class="icon-size-5 text-white"
+                [svgIcon]="'heroicons_solid:cloud-upload'">
+        </mat-icon>
+        &nbsp;Submit Customers
+     </button>
+     &nbsp;
+     &nbsp;
+     <button type="submit" (click)="cancelsubmit()"  [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.2'}}" fxFlex="25"
+        mat-raised-button color="warn" class="w-48 mt-6 rounded-md">
+        <mat-icon
+                class="icon-size-5 text-white"
+                [svgIcon]="'heroicons_solid:x-circle'">
+        </mat-icon>
+        &nbsp;Cancel
+     </button>
+      </div>
+      <div #TableContainer class="mt-0 " fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+          <mat-table [dataSource]="dataSource" matSort>
+
+                  <ng-container matColumnDef="acctnumber">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <div class="font-bold text-black dark:text-gray-400">Account Number</div>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                          <div class="text-sm"> {{row.AccountNumber}} </div>
+                      </mat-cell>
+                  </ng-container>
+                  <!-- class="mr-8 -->
+                  <ng-container matColumnDef="customerName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <div class="font-bold text-black dark:text-gray-400 mr-6">Account name</div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="text-sm mr-6"> {{row.accountName}} </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Recordstatus">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div class="font-bold text-black dark:text-gray-400">Record Status</div>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <div [ngClass]="{'text-red-500': row.BDayEmail !='valid','text-green-600': row.BDayEmail ==1}" class="text-sm"> {{row.BDayEmail ===1 ? 'Yes' : 'No' }} </div>
+                  </mat-cell>
+                </ng-container>
+
+
+
+                    <ng-container matColumnDef="birthEmail">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Birthday Email</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.BDayEmail ===0,'text-green-600': row.BDayEmail ==1}" class="text-sm"> {{row.BDayEmail ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+                    <!-- changesBelow -->
+                    <ng-container matColumnDef="smsAlert">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Sms Alert</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.SMSAlert ===0,'text-green-600': row.SMSAlert ==1}" class="text-sm"> {{row.SMSAlert ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+                    <!-- changesBelow -->
+                    <ng-container matColumnDef="birthSmsAlert">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Birthday Sms</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.BDayEmail ===0,'text-green-600': row.BDayEmail ==1}" class="text-sm"> {{row.BDayEmail ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="emailAlert">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Email Alert</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.EmailAlert ===0,'text-green-600': row.EmailAlert ==1}" class="text-sm"> {{row.EmailAlert ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="crLimit">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <div class="font-bold text-black dark:text-gray-400">Credit Limit</div>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                          <div class="text-sm"> {{row.CreditLimit}} </div>
+                      </mat-cell>
+                  </ng-container>
+                  <!-- changesBelow -->
+                  <ng-container matColumnDef="dbLimit">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <div class="font-bold text-black dark:text-gray-400">Debit Limit</div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="text-sm"> {{row.DebitLimit}} </div>
+                    </mat-cell>
+                </ng-container>
+                
+                
+
+
+                    <!-- <ng-container matColumnDef="email">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <div class="text-bold text-black dark:text-gray-400">Email </div>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> 
+                         <div class="text-sm" [matTooltip]="row.emailAddress"> {{row.emailAddress}}</div> 
+                      </mat-cell>
+                    </ng-container> -->
+
+                    <!-- <ng-container matColumnDef="WeeklyStat">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="text-bold text-black dark:text-gray-400">Weekly Statement</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row"> 
+                           <div class="text-sm"> {{row.WStatement}}</div> 
+                        </mat-cell>
+                      </ng-container> -->
+
+                      <ng-container matColumnDef="Dailystat">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Daily Statment</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.dstatement ===0,'text-green-600': row.dstatement ==1}" class="text-sm"> {{row.dstatement ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="WeeklyStat">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Weekly Statment</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.WStatement ===0,'text-green-600': row.WStatement ==1}" class="text-sm"> {{row.WStatement ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="Monthstat">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Monthly Statment</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.mstatement ===0,'text-green-600': row.mstatement ==1}" class="text-sm"> {{row.mstatement ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="Yearlystat">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Year Statment</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <div [ngClass]="{'text-orange-500': row.YStatement ===0,'text-green-600': row.YStatement ==1}" class="text-sm"> {{row.YStatement ===1 ? 'Yes' : 'No' }} </div>
+                        </mat-cell>
+                    </ng-container>
+                    
+
+
+                        <ng-container matColumnDef="Religion">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">Religion </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                             <div class="text-sm"> {{row.religion}}</div> 
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tranErrSatus">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">Transaction Error Message</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                             <div class="text-sm"> {{getstatus(row.accountAlreadyRegistered,row.accountPendingAuthorisation,row.accountInvalid).reason}}</div>
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="auth_stat">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">Auth Status </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                              <div [ngClass]="{'text-green-500': row.authStat ==='A','text-yellow-600': row.authStat !=='A'}" class="text-sm"> 
+                                {{row.authStat ==='A' ? 'Authorized' : 'UnAuthorized' }} 
+                              </div>
+                              
+                          </mat-cell>
+                        </ng-container> -->
+
+                        <!-- <ng-container matColumnDef="status">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="text-bold text-black dark:text-gray-400">Status </div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> 
+                              <div [ngClass]="{'text-green-600': row.status ==='A','text-red-600': row.status !=='A'}" class="text-sm"> 
+                                {{row.status ==='A' ? 'Active' : 'Blocked' }} 
+                              </div>
+                              
+                          </mat-cell>
+                        </ng-container> -->
+                
+
+                        
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" [ngClass]="" [ngClass]="{'bg-red-200': getstatus(row.accountAlreadyRegistered,row.accountPendingAuthorisation,row.accountInvalid).status}"  >
+                            </mat-row>
+          </mat-table>
+          <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+              <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+              <div>No records found</div>
+          </div>
+          <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    
+</div>
+
+
+    
+</div>

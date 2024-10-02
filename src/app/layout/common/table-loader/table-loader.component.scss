@@ -1,0 +1,22 @@
+.logo {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    animation: logo-pulsate 0.8s ease-in-out infinite alternate;
+}
+
+.logo img {
+    width: 180px;
+    max-width: 180px;
+}
+
+@keyframes logo-pulsate {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}

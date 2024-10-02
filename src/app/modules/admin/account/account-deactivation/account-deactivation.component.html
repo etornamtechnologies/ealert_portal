@@ -1,0 +1,62 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Account Management</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Account Deactivation</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                Bulk Account Deactivation
+              </h2>
+          </div>
+      </div>
+  </div>
+
+  <div class="bg-blue-800 p-4 mx-4 mt-6 text-white text-lg font-bold">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-icon
+         class="icon-size-7 text-white"
+         [svgIcon]="'heroicons_solid:upload'">
+    </mat-icon>
+    <div>Bulk Account Deactivation</div>
+    </div>
+    
+</div>
+<div class="mat-card mx-4 mb-4 py-8 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+    
+    
+    <div class="font-bold text-lg mb-2" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.2'}}">
+        Upload Acount Details For Deactivation
+    </div>
+
+    <input type="file" name="contact" id="contact" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.2'}}">
+
+    <button 
+        type="submit" 
+        [@animate]="{value:'*', params:{duration:'300ms',delay:'300ms',scale:'.2'}}"
+        mat-raised-button 
+        color="primary" 
+        class="w-48 mt-6 rounded-md">
+        <mat-icon
+                class="icon-size-5 text-white"
+                [svgIcon]="'heroicons_solid:cloud-upload'">
+        </mat-icon>
+        &nbsp;Upload Accounts
+     </button>
+    
+</div>
+  
+
+    
+</div>

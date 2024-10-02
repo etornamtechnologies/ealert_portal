@@ -1,0 +1,102 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Broadcast</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Authorize Email Broadcast</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    Authorize Email Broadcast Messages
+              </h2>
+          </div>
+      </div>
+  </div>
+
+    <div class="mat-card mx-4 my-4 p-3 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+      <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="Who are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0 hidden" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="message">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Message</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.subject}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="run_date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Run Date</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.runDate | date: 'dd/MM/yyyy '}} </div>
+                        </mat-cell>
+                    </ng-container>
+                
+                  
+
+
+                          <ng-container matColumnDef="created_by">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Created By </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.maintainedBy}}</div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="time_stamp">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Time created</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.maintainedTimestamp}}</div> 
+                            </mat-cell>
+                          </ng-container>
+                  
+
+                          <ng-container matColumnDef="actions">
+                              <mat-header-cell *matHeaderCellDef>
+                                  <div class="text-bold text-black dark:text-gray-400">ACTIONS</div>
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row"> 
+                                  <button mat-stroked-button class="text-blue-700 my-1" (click)="authorizebroadcast(row)">
+                                      Authorize&nbsp;<mat-icon svgIcon="heroicons_outline:badge-check" class="icon-size-4 text-blue-700"></mat-icon>
+                                  </button>
+                              </mat-cell>
+                          </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+</div>

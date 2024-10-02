@@ -1,0 +1,39 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500 text-sm">Broadcast</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  <a class="ml-1 text-primary-500 text-sm">Broadcast Contacts</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-0">
+              <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                Broadcast Upload
+              </h2>
+          </div>
+      </div>
+  </div>
+
+  <div class="mt-6">
+    <mat-tab-group dynamicHeight="true">
+        <mat-tab label="Upload Broadcast Contacts">
+            <app-upload-contact></app-upload-contact>
+        </mat-tab>
+        <mat-tab label="Single Broadcast Contacts">
+            <app-single-contact></app-single-contact>
+        </mat-tab>
+     </mat-tab-group>
+  </div>
+  
+
+    
+</div>

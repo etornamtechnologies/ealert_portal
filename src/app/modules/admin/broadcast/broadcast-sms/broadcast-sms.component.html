@@ -1,0 +1,210 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500 text-sm">Broadcast</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500 text-sm">Broadcast SMS</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-0">
+                <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    SMS Broadcast Message
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div fxLayout="row" fxLayoutGap="30px" class="p-4">
+        <div fxLayout="column" fxFlex="65">
+            <div class="mat-card rounded-md flex-auto p-6">
+                <div fxLayout="row">
+                    <form name="SMSBroadcast" (ngSubmit)="createSmsBroadcast()" [formGroup]="SMSBroadcastForm" fxFlex="70">
+
+                        <div class="flex flex-col mt-0.5 p-2 overflow-hidden">
+                            <p class="text-lg font-medium" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">Required information</p>
+                            <p class="text-secondary text-sm" [@animate]="{value:'*', params:{opacity:'0.3',delay:'100ms',x:'-20%'}}">
+                                Kindly provide information of the message to be broadcasted via SMS.
+                            </p>
+                            <mat-divider class="mt-4 mb-8"></mat-divider>
+                            <div class="flex flex-col gt-xs:flex-row">
+                                <mat-form-field class="flex-auto gt-xs:pl-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'100ms',scale:'.5'}}">
+                                    <textarea matInput rows="8" formControlName="Message" [placeholder]="'Broadcast Message *'"></textarea>
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_outline:chat-alt'"></mat-icon>
+                                        <mat-error>Broadcast Message is required!</mat-error>
+                                </mat-form-field>
+
+                                <mat-checkbox [(ngModel)]="broadcastNow" matTooltip="This would send the broadcast immediately" matTooltipClass="keep-me-mat-tooltip"
+                                    [@animate]="{value:'*',params:{duration:'300ms',delay:'300ms',scale:'.5'}}"
+                                    class="remember-me py-4" formControlName="BroadcastNow" aria-label="Broadcast Now">
+                                    Broadcast Now
+                                </mat-checkbox>
+                                <div class="my-1" fxLayout="row" fxLayoutGap="15px" *ngIf="!broadcastNow" >
+                              
+                                    <!-- broadcast date -->
+                                    <mat-form-field appearance="outline" class="text-sm" [@animate]="{value:'*', params:{duration:'400ms',delay:'200ms',scale:'.5'}}">
+                                        <mat-label>Select Run Date (dd/mm/YYYY)</mat-label>
+                                        <input
+                                            matInput
+                                            [matDatepicker]="picker"
+                                            (focus)="picker.open()"
+                                            readonly
+                                            formControlName="RunDate"
+                                            placeholder="Pick a Date" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-error>Please select run date</mat-error>
+                                    </mat-form-field>
+                                    <!-- broadcast time -->
+                                    <mat-form-field appearance="outline" class="text-sm" [@animate]="{value:'*', params:{duration:'400ms',delay:'300ms',scale:'.5'}}">
+                                        <mat-label>Select Run Time (hh:mm) (AM/PM)</mat-label>
+                                        <input matInput readonly formControlName="RunTime" [ngxTimepicker]="picker2" [format]="12">
+                                        <ngx-material-timepicker #picker2 [timepickerClass]="'primary'"></ngx-material-timepicker>
+                                        <mat-error>Please select run time</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                
+                                
+                                
+                            </div>
+
+
+                            <!-- <mat-checkbox [(ngModel)]="specificList"  matTooltip="This would send the broadcast immediately" matTooltipClass="keep-me-mat-tooltip"
+                            [@animate]="{value:'*',params:{duration:'300ms',delay:'250ms',scale:'.5'}}"
+                            class="remember-me py-4" formControlName="Broadcastlist" aria-label="Broadcast to an uploaded list">
+                            Broadcast to a specific Customer list
+                            </mat-checkbox> -->
+
+                            
+                            <div *ngIf="!specificList" class="flex flex-col gt-xs:flex-row">
+                                <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'500ms',scale:'.5'}}">
+                                    
+                                    <!-- <mat-select [placeholder]="'Account Type *'" formControlName="AccountType">
+                                        <mat-option *ngIf="role == 'SUPER ADMIN'" value="SUPER ADMIN">SUPER ADMIN</mat-option>
+                                        
+                                        
+                                    </mat-select> -->
+
+                                    <mat-select  [placeholder]="'Account Type *'" formControlName="AccountType">
+                                        <mat-option value="All">All</mat-option>
+                                        <mat-option *ngFor="let acctype of accountType" [value]="acctype.accountClass">{{ acctype.description }}</mat-option>
+                                    
+                                    </mat-select>
+
+                                    
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                        <mat-error>Account Type is required!</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'600ms',scale:'.5'}}">
+                                    <mat-select [placeholder]="'Religion *'" formControlName="Religion">
+                                        <mat-option value="All">All</mat-option>
+                                        <mat-option value="Christianity">Christianity</mat-option>
+                                        <mat-option value="Islam">Islam</mat-option>
+                                        <mat-option value="Hinduism">Hinduism</mat-option>
+                                        <mat-option value="Judaism">Judaism</mat-option>
+                                    </mat-select>
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'mat_outline:wb_shade'"></mat-icon>
+                                        <mat-error>Religion is required!</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="flex-auto gt-xs:pr-3" [@animate]="{value:'*', params:{duration:'300ms',delay:'700ms',scale:'.5'}}">
+                                    <mat-select [placeholder]="'Gender *'" formControlName="Gender">
+                                        <mat-option value="All">ALL</mat-option>
+                                        <mat-option value="MALE">Male</mat-option>
+                                        <mat-option value="FEMALE">Female</mat-option>
+                                    </mat-select>
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        matPrefix
+                                        [svgIcon]="'mat_outline:male'"></mat-icon>
+                                        <mat-error>Gender is required!</mat-error>
+                                </mat-form-field>
+                                
+                            </div>
+
+                            <!-- to handle broadcast to specific list -->
+                            <div *ngIf="specificList" class="flex flex-col gt-xs:flex-row" [formGroup]="FileUploadForm">
+                                <div   class="font-bold text-lg mb-2"  [@animate]="{value:'*', params:{duration:'300ms',delay:'400ms',scale:'.2'}}">
+        
+                                    <a fxLayoutAlign="end end" mat-stroked-button href="/assets/templates/CustomerBroadcastList.xlsx">Dowlaod Excel Template
+                                        <!-- <mat-icon>get_app</mat-icon> -->
+                                    </a>
+                                </div>
+                                <br/>
+                                <div [@animate]="{value:'*', params:{duration:'300ms',delay:'500ms',scale:'.2'}}">
+                                  <form fxLayout="column"  >
+                                    <!-- formControlName="fileUploadForm" -->
+                                    <!-- name="fileUploadForm"  -->
+    
+                                    <div fxLayout="row" >
+                                            <input type="file" value="myfile" name="contact" id="contact" [@animate]="{value:'*', params:{duration:'300ms',delay:'200ms',scale:'.2'}}" (change)="onFileSelect($event)">
+                                        
+                                      </div>
+                                
+                                    </form>
+                                </div>
+                            </div>
+
+
+
+                            <div class="flex items-center justify-end border-t -mx-8 mt-4 px-8 py-2 bg-gray-50 dark:bg-slate-700">
+                                <button 
+                                    [@animate]="{value:'*', params:{duration:'300ms',delay:'800ms',scale:'.5'}}"
+                                    [routerLink]="'/ealert/dashboard'"
+                                    class="px-6  bg-gray-200 dark:bg-slate-800 w-44 rounded-md"
+                                    mat-flat-button 
+                                    type="button">
+                                    Cancel
+                                </button>
+                                <button
+                                    [@animate]="{value:'*', params:{duration:'300ms',delay:'900ms',scale:'.5'}}"
+                                    class="px-6 ml-3 w-44 rounded-md"
+                                    mat-raised-button
+                                    [color]="'primary'">
+                                    Create Broadcast
+                                </button>
+                            </div>
+                        </div>
+        
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+        <div fxLayout="column" fxFlex="30">
+            <div class="mat-card rounded-md px-12 py-24" fxLayout="column">
+                <img src="assets/images/icons/resource.svg" class="h-40 w-40 place-self-center" [@animate]="{value:'*',params:{duration:'300ms',delay:'200ms',y:'-80%'}}"> 
+                <div class="mt-4 text-center p-2 text-xl font-bold" [@animate]="{value:'*',params:{duration:'300ms',delay:'300ms',y:'80%'}}">
+                    SMS Broadcast Message
+                </div>
+                <div class="text-center p-4 pt-0 text-gray-400 text-base" [@animate]="{value:'*',params:{duration:'300ms',delay:'400ms',y:'80%'}}">
+                    create a new user onto the E-Alert messaging platform that would manage usage of the application by the customers and other users
+                    on the platform. When this process is successful the user will get an email notification of creation on the platform after authorization.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                
+</div>

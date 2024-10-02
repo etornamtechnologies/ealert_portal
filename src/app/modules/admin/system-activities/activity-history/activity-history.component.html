@@ -1,0 +1,176 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b border-gray-300 bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500 text-sm">System Activities</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500 text-sm">Activity History</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-0">
+                <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    Activity History
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-card px-4 py-2">
+      <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="5px">
+          <div fxFlex="30" class="bg-gray-100 dark:bg-slate-700" [@animate]="{value:'*', params:{delay:'200ms',scale:'.2'}}">
+              <div fxLayout="row" fxLayoutGap="2px">
+                  <img src="assets/images/icons/clock.png" class="w-16 h-16  mt-2">
+                  <div fxLayout="column">
+                      <h2 class="text-base md:text-base sm:text-sm font-bold pl-6 mt-2">
+                          Filter Activity
+                      </h2>
+                      <span class="text-xs text-secondary dark:text-gray-300 px-6">
+                          Select adb user or activity date to filter specific range of activity history. 
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div fxFlex="70" class="pt-2">
+
+              <form fxLayout="column"
+                    name="advanceSearch"
+                    (ngSubmit)="getActivityHistoryResult()"
+                    [formGroup]="historyFilter">
+                  <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
+
+                    <div fxLayout="column" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}" fxFlexOffset="2" fxFlex="38">
+                        <label class="leading-4">
+                          <b class="text-sm">Adb User</b>
+                        </label>
+                        <mat-form-field appearance="outline" class="text-xs">
+                            <mat-label>Select adb user</mat-label>
+                            <input matInput formControlName="AdbUser" [matAutocomplete]="auto" placeholder="Who are you looking for?">
+                            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayWithFilter">
+                                <mat-option *ngFor="let user of sortBy('fname')" [value]="user">
+                                    {{user.fname}} {{user.lname}} ({{user.username}})
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                      <div fxLayout="column" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}" fxFlexOffset="2" fxFlex="35">
+                          <label class="leading-4">
+                            <b class="text-sm">Activity Date</b>
+                          </label>
+                          <mat-form-field appearance="outline" class="text-xs">
+                              <mat-label>Activity Date (dd/mm/YYYY)</mat-label>
+                              <input
+                                  matInput
+                                  [matDatepicker]="picker"
+                                  (focus)="picker.open()"
+                                  readonly
+                                  formControlName="ActivityDate"
+                                  placeholder="Pick a Date" />
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                      </div>
+  
+                        <button 
+                          type="submit" 
+                          [@animate]="{value:'*', params:{delay:'500ms',scale:'.2'}}"
+                          [disabled]="isLoading"
+                          mat-raised-button 
+                          color="primary" 
+                          class="w-48 mt-5 rounded-md">
+                          Search &nbsp;
+                          <span matSuffix><mat-icon class="icon-size-4">search</mat-icon></span>
+                        </button>
+  
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+    <div class="mat-card mx-4 my-4 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+        <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="What are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="user_id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Username</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.userId}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="action">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="font-bold text-black dark:text-gray-400">ACTION</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                              <div class="text-sm"> {{row.action}} </div>
+                          </mat-cell>
+                      </ng-container>
+            
+
+
+                        <ng-container matColumnDef="entity">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Entity </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.entityId}}</div> 
+                            </mat-cell>
+                          </ng-container>
+
+
+                          <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Status</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> 
+                                  {{row.statusText}}
+                               </div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="timestamp">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">TimeStamp</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> 
+                                  {{row.timestamp | date: 'dd/MM/yy, h:mm a'}}
+                               </div> 
+                            </mat-cell>
+                          </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+</div>

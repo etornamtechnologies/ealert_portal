@@ -1,0 +1,120 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 px-10 py-2 border-b border-gray-300 bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500 text-sm">System Activities</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500 text-sm">Cheque Book Request</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-0">
+                <h2 class="text-xl md:text-xl sm:text-xl font-extrabold tracking-tight truncate">
+                    Cheque Book Request
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="mat-card mx-4 my-4 p-4 mat-elevation-z2 rounded-md" fxLayout="column" fxLayoutAlign="start">
+        <app-table-loader *ngIf="isLoading"></app-table-loader>
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="!isLoading">
+
+            <mat-form-field appearance="outline" fxFlex="28" class="text-xs">
+                <mat-label>Quick Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="What are you looking for?">
+                <span matSuffix><mat-icon class="s-20">search</mat-icon></span>
+            </mat-form-field>
+        </div>
+        <div #TableContainer class="mt-0 hidden" fxLayout="column" fxLayoutAlign="start" fxFlex="100">
+            <mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="account_number">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <div class="font-bold text-black dark:text-gray-400">Account Number</div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="text-sm"> {{row.acNo}} </div>
+                        </mat-cell>
+                    </ng-container>
+
+                      <ng-container matColumnDef="cheque_book_type">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <div class="font-bold text-black dark:text-gray-400">Cheque Book Type</div>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                              <div class="text-sm"> {{row.chequeBookType}} </div>
+                          </mat-cell>
+                      </ng-container>
+            
+
+
+                        <ng-container matColumnDef="quantity">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Quantity </div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> {{row.quantity}}</div> 
+                            </mat-cell>
+                          </ng-container>
+
+
+                          <ng-container matColumnDef="pickup_branch">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Pick Up Branch</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> 
+                                  {{row.pickupBranch}}
+                               </div> 
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Status</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div [ngClass]="{'text-green-500': row.reqStatus ==='RESOLVED','text-yellow-500': row.reqStatus ==='PENDING'}" class="text-sm"> 
+                                  {{row.reqStatus}}
+                               </div> 
+                               &nbsp;
+                               <div *ngIf="row.reqStatus === 'PENDING'">
+                                <button matTooltip="Resolve Request" matTooltipClass="chq-req-mat-tooltip" mat-stroked-button class="text-blue-600 my-0.5 ml-5 text-sm" (click)="resolveChequebookRequest(row)"><mat-icon class="icon-size-5 text-blue-600" svgIcon="heroicons_outline:check"></mat-icon></button>
+                               </div>
+                            </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="date_created">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                              <div class="text-bold text-black dark:text-gray-400">Date Created</div>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> 
+                               <div class="text-sm"> 
+                                  {{row.dtCreated | date: 'd/MM/yy, h:mm a'}}
+                               </div> 
+                            </mat-cell>
+                          </ng-container>
+                  
+
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;">
+                              </mat-row>
+            </mat-table>
+            <div class="p-8 text-2xl text-blue-600 font-semibold text-center" *ngIf="isResultEmpty">
+                <mat-icon svgIcon="heroicons_solid:exclamation" class="icon-size-16 text-blue-400"></mat-icon>
+                <div>No records found</div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+    </div>
+</div>
